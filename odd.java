@@ -1,4 +1,4 @@
-package qee;
+ package qee;
 
 public class odd {
 
@@ -37,5 +37,5 @@ public class odd {
 		q.oddd();
 
 	}
-
+//¶ÑºñµÎ¹ÙŒê;
 }
