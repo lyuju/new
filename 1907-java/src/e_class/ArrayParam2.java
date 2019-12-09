@@ -25,7 +25,7 @@ public class ArrayParam2 {
         ap2.input(c1);
         car c2 = new car("º¼º¸","»¡°­",400);
         ap2.input(c2);
-        
+       // ddd
 	}
 
 }
