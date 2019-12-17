@@ -11,6 +11,8 @@ import java.awt.Color;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MessageFormatExam extends JFrame {
 
@@ -68,19 +70,47 @@ public class MessageFormatExam extends JFrame {
 	}
 	private JMenuItem getMntmNewMenuItem() {
 		if (mntmNewMenuItem == null) {
-			mntmNewMenuItem = new JMenuItem("New menu item");
+			mntmNewMenuItem = new JMenuItem("decimal");
+			mntmNewMenuItem.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+				DecimalFormatExam exam = new DecimalFormatExam();
+				contentPane.add(exam);
+				contentPane.updateUI();
+					
+					
+					
+				}
+			});
 		}
 		return mntmNewMenuItem;
 	}
 	private JMenuItem getMntmNewMenuItem_1() {
 		if (mntmNewMenuItem_1 == null) {
-			mntmNewMenuItem_1 = new JMenuItem("New menu item");
+			mntmNewMenuItem_1 = new JMenuItem("simple date");
+			mntmNewMenuItem_1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					SimpleDateExam exam = new SimpleDateExam();
+					contentPane.add(exam);
+					
+					
+					
+				}
+			});
 		}
 		return mntmNewMenuItem_1;
 	}
 	private JMenuItem getMntmNewMenuItem_2() {
 		if (mntmNewMenuItem_2 == null) {
-			mntmNewMenuItem_2 = new JMenuItem("New menu item");
+			mntmNewMenuItem_2 = new JMenuItem("message");
+			mntmNewMenuItem_2.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					MessageExam exam= new MessageExam();
+					contentPane.add(exam);
+					
+					
+					
+				}
+			});
 		}
 		return mntmNewMenuItem_2;
 		
