@@ -2,6 +2,9 @@ package h.ka;
 
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Objects;
 
 import javax.swing.JInternalFrame;
@@ -47,7 +50,7 @@ public class BoardSearch extends JInternalFrame {
    }
    
    public void boardList() {
-      BoardVo temp = null;
+      /*BoardVo temp = null;
       int r = 0;
       for(int i = 0; i<BoardMain.count-1; i++) {
          for(int j=(i+1); j<BoardMain.count; j++) {
@@ -64,7 +67,27 @@ public class BoardSearch extends JInternalFrame {
       textArea.setText("");
       for(int i=0; i<BoardMain.count;i++) {
          textArea.append(BoardMain.data[i] + "\n");
-      }
+      }*/
+	   
+	   Collections.sort(
+	   Arrays.asList(BoardMain.data),new BoardComparator());
+	   
+	   textArea.setText("");
+	   for(int i =0 ; i<BoardMain.count ; i++) {
+		   textArea.append(BoardMain.data[i].toString());
+	   }
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
    }
    private JLabel getLblNewLabel() {
       if (lblNewLabel == null) {

@@ -25,7 +25,7 @@ public class BoardInput extends JInternalFrame {
    private JTextField cnt;
    
    
-   
+   BoardVo b;
   
 
    /**
