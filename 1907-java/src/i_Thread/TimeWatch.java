@@ -25,11 +25,7 @@ public class TimeWatch extends JFrame {
 	private JButton btnNewButton;
 	private JButton btnNewButton_1;
 	private JPanel panel;
-    //String data="";
-   // Watch a = new Watch();
-	//Watch a = new Watch();
-	//a.start();
-
+	
 	
 	
 	
@@ -75,16 +71,13 @@ public class TimeWatch extends JFrame {
 		contentPane.add(getBtnNewButton());
 		contentPane.add(getBtnNewButton_1());
 		contentPane.add(getPanel());
-		Watch a = new Watch(textField);
-		a.start();
-		/*Runnable ab = new StopWatchThread(btnNewButton);
-	    Thread thread = new Thread(ab);
-	    thread.start();*/
-		//setvisible(ture);
 		
 		
 		
 		
+		DateTimeThread dtt = new DateTimeThread(textField);
+		dtt.setDaemon(true);
+		dtt.start();
 		
 		
 		
@@ -107,10 +100,10 @@ public class TimeWatch extends JFrame {
 					
 					
 					
-					//textField.setText(textField);
 				}
 					
 			});
+			//textField.setText("");
 			textField.setBounds(12, 35, 395, 55);
 			textField.setColumns(10);
 		}
@@ -129,12 +122,13 @@ public class TimeWatch extends JFrame {
 			btnNewButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					
-					contentPane.UPateUI;
-					Runnable ab = new StopWatchThread(btnNewButton);
-				    Thread thread = new Thread(ab);
-				    thread.start();
 					
 					
+				    StorWatchThread2 st = (StorWatchThread2)panel;
+				    st.stop=false;
+				    Thread t = new Thread(st);
+				    t.setDaemon(true);
+				    t.start();
 					
 					
 					
@@ -147,14 +141,24 @@ public class TimeWatch extends JFrame {
 	private JButton getBtnNewButton_1() {
 		if (btnNewButton_1 == null) {
 			btnNewButton_1 = new JButton("stop");
+			btnNewButton_1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+
+				    StorWatchThread2 st = (StorWatchThread2)panel;
+				    st.stop=true;
+				    		
+					
+					
+				}
+			});
 			btnNewButton_1.setBounds(279, 213, 97, 23);
 		}
 		return btnNewButton_1;
 	}
 	private JPanel getPanel() {
 		if (panel == null) {
-			panel = new StorWatchThread();
-			panel.setBounds(12, 148, 395, 49);
+			panel = new StorWatchThread2();
+			panel.setBounds(22, 148, 384, 41);
 		}
 		return panel;
 	}

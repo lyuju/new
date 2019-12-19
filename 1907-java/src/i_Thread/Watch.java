@@ -2,8 +2,9 @@ package i_Thread;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.awt.*;
-import javax.swing.*;
+
+import javax.swing.JTextField;
+
 
 public class Watch extends Thread {
 	JTextField seconttext;

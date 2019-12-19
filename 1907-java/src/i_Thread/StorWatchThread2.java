@@ -1,16 +1,14 @@
 package i_Thread;
 
 import javax.swing.JPanel;
-import javax.swing.JLabel;
 import java.awt.BorderLayout;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
-
-public class StorWatchThread extends JPanel implements Runnable {
+public class StorWatchThread2 extends JPanel implements Runnable {
 	boolean stop =false;
 	private JLabel timeLabel;
 	
@@ -22,15 +20,14 @@ public class StorWatchThread extends JPanel implements Runnable {
 	
 	
 	
-   public StorWatchThread() {
+   public StorWatchThread2() {
 		setLayout(new BorderLayout(0, 0));
-		add(gettimeLabel, BorderLayout.CENTER);
 		add(getTimeLabel(), BorderLayout.CENTER);
 		
 	}
 
-	boolean a =true;
-	private JLabel timeLabel;
+	
+	
 	public void run() {
 		DecimalFormat df = new DecimalFormat("###,###.000");
 		long begin = new Date().getTime();
@@ -44,16 +41,12 @@ public class StorWatchThread extends JPanel implements Runnable {
 		}
 	}
 	        
-	private JLabel getLblNewLabel2() {
-		if (lblNewLabel2 == null) {
-			lblNewLabel2 = new JLabel("stop watch");
-			lblNewLabel2.setHorizontalAlignment(SwingConstants.CENTER);
-		}
-		return lblNewLabel2;
-	}
+	
+	
 	private JLabel getTimeLabel() {
 		if (timeLabel == null) {
-			timeLabel = new JLabel("New label");
+			timeLabel = new JLabel("stop watch");
+			timeLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		}
 		return timeLabel;
 	}
