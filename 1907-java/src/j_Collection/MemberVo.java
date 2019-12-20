@@ -4,47 +4,45 @@ public class MemberVo {
 
 	private String mId;
 	private String pwd;
-	private String mName; //이름순 어센딩
+	private String mName; // 이름순 어센딩
 	private String phone;
-	
-	public MemberVo(String mId,String pwd,String mName,String phone) {
-		this.mId=mId;
-		this.pwd=pwd;
-		this.mName=mName;
-		this.phone=phone;
+
+	public MemberVo(String mId, String pwd, String mName, String phone) {
+		this.mId = mId;
+		this.pwd = pwd;
+		this.mName = mName;
+		this.phone = phone;
 	}
-	
+
 	void ss() {
-		
+
 	}
-	
-	
+
 	@Override
 	public int hashCode() {
-		
-		
-		return 0;//추후 변경
+
+		return mId.hashCode() + phone.hashCode();// 추후 변경
 	}
+
 	@Override
 	public boolean equals(Object obj) {
-		
-		return true;//추후 변경
+		boolean result = false;
+
+		if (obj instanceof MemberVo) {
+			MemberVo vo = (MemberVo) obj;
+			if (vo.getmId().equals(mId) && vo.getPhone().equals(phone)) {
+				result = true;
+			}
+
+		}
+		return result;
 	}
-	
+
 	@Override
 	public String toString() {
-		
-		return mId+"\t"+pwd+"\t"+mName+"\t"+phone+"\n";//추후 변경
+
+		return mId + "\t" + pwd + "\t" + mName + "\t" + phone + "\n";// 추후 변경
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 	public String getmId() {
 		return mId;
@@ -77,12 +75,5 @@ public class MemberVo {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-		
-		
-	
-	
-	
-	
-	
-	
+
 }

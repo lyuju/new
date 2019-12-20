@@ -2,6 +2,7 @@ package j_Collection;
 
 import java.awt.EventQueue;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
@@ -106,23 +107,43 @@ public class MemberModify extends JInternalFrame {
 	}
 
 	public void modify() {
-		/*if(index>=0) {
+		if(index>=0) {
 			String id=mId.getText();
-			String id=mId.getText();
-			String id=mId.getText();
-			String id=mId.getText();
+			String p=pwd.getText();
+			String n=mName.getText();
+			String ph=phone.getText();
 			
 			
 			
-			
-		MemberVo vo=new MemberVo(id,p,m,ph);
-			list.set(index, vo);
-		}*/
-		String a=pwd.getText();
+		
+		
+		/*String a=pwd.getText();
 		MemberVo vo = list.get(index);
-		vo.setPwd(a);
+		vo.setPwd(a);*/
+		
+		
+		
+		
+		
 		
 		status.setText("수정이 완료되었습니다.");
+		boolean flag=
+				Pattern.matches(MemberMain.idCheck,id)&&
+				Pattern.matches(MemberMain.pwdCheck,p)&&
+				Pattern.matches(MemberMain.nameCheck,n)&&
+				Pattern.matches(MemberMain.phoneCheck,ph);
+		
+		
+		if(flag) {
+			MemberVo vo=new MemberVo(id,p,n,ph);
+			list.set(index, vo);
+		}else {
+			status.setText("입력 자료를 확인해 주세요");
+		}
+		
+		
+		}
+		
 		
 		
 		
