@@ -37,6 +37,13 @@ public class MemberVo {
 		}
 		return result;
 	}
+	 sno;
+	 private String mName;
+	 private String exam;
+	 private int grade;
+	 private int kor;
+	 private int eng;
+	 private int mat;
 
 	@Override
 	public String toString() {

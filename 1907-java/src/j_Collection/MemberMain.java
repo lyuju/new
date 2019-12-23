@@ -91,6 +91,8 @@ public class MemberMain extends JFrame {
 			MemberVo vo = new MemberVo("no"+i,"pwd"+i,"name"+i,"010-1111-"+i);
 			list.add(vo);
 		}
+		
+		
 			
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -195,7 +197,7 @@ public class MemberMain extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					ProductInPut panel = new ProductInPut(piList);
 					contentPane.add(panel);
-					
+					panel.toFront();//패널앞으로
 					
 					
 				}
@@ -210,6 +212,7 @@ public class MemberMain extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					ProductOutput panel = new ProductOutput(peList);
 					contentPane.add(panel);
+					panel.toFront();
 				}
 			});
 		}

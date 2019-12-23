@@ -149,6 +149,10 @@ public class ProductSearch extends JInternalFrame {
 	private JRadioButton getImBtn() {
 		if (imBtn == null) {
 			imBtn = new JRadioButton("\uC785\uACE0");//입고버튼
+			imBtn.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+				}
+			});
 			group.add(imBtn);
 			imBtn.setSelected(true);
 			

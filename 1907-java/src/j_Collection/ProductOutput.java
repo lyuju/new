@@ -1,16 +1,19 @@
 package j_Collection;
 
+import java.awt.Color;
 import java.awt.EventQueue;
-
-import javax.swing.JInternalFrame;
-import javax.swing.JLabel;
-import javax.swing.JButton;
-import javax.swing.JTextField;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Set;
-import java.awt.event.ActionEvent;
+
+import javax.swing.JButton;
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 public class ProductOutput extends JInternalFrame {
 
@@ -25,6 +28,7 @@ public class ProductOutput extends JInternalFrame {
 	private JTextField pName;
 	private JTextField ea;
 	private JTextField nal;
+	private JLabel status;
 
 	/**
 	 * Launch the application.
@@ -58,6 +62,7 @@ public class ProductOutput extends JInternalFrame {
 		getContentPane().add(getPName());
 		getContentPane().add(getEa());
 		getContentPane().add(getNal());
+		getContentPane().add(getStatus());
 		setVisible(true);
 	}
 
@@ -66,6 +71,40 @@ public class ProductOutput extends JInternalFrame {
 		this.peList = peList;
 
 	}
+
+	public void output() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		
+		if(pCode.getText().equals("")|| pName.getText().equals("")||
+			ea.getText().equals("")||nal.getText().equals("")	) {
+		
+		
+		
+		
+		
+		
+		
+		
+		try {
+			String serial = sdf.format(new Date()) + "-" + MemberMain.eSerial;
+			String pc = pCode.getText();
+			String pn = pName.getText();
+			int pa = Integer.parseInt(ea.getText());
+			Date n=sdf.parse(nal.getText());
+			ProductVo vo = new ProductVo(serial,pc,pn,pa,n);
+			peList.add(vo);
+			MemberMain.eSerial++;
+			status.setText(MemberMain.eSerial+"번째가 출고되었습니다.");
+			} catch (ParseException e) {
+				e.printStackTrace();
+			} catch (NumberFormatException e2) {
+			
+			}catch(Exception e3) {
+				
+			}
+		}
+
+		}
 
 	private JLabel getLblNewLabel() {
 		if (lblNewLabel == null) {
@@ -101,9 +140,11 @@ public class ProductOutput extends JInternalFrame {
 
 	private JButton getBtnNewButton() {
 		if (btnNewButton == null) {
-			btnNewButton = new JButton("\uCD9C\uACE0");
+			btnNewButton = new JButton("\uCD9C\uACE0");// 출고
 			btnNewButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					output();
+
 				}
 			});
 			btnNewButton.setBounds(34, 191, 97, 23);
@@ -147,5 +188,16 @@ public class ProductOutput extends JInternalFrame {
 			nal.setText(sdf.format(new Date()));
 		}
 		return nal;
+	}
+
+	private JLabel getStatus() {
+		if (status == null) {
+			status = new JLabel("");
+			status.setHorizontalAlignment(SwingConstants.CENTER);
+			status.setOpaque(true);
+			status.setBackground(new Color(220, 20, 60));
+			status.setBounds(223, 225, 134, 15);
+		}
+		return status;
 	}
 }
