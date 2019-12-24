@@ -10,6 +10,10 @@ private int grade;
 private int kor;
 private int eng;
 private int mat;
+int tot;
+double avg;
+
+public ScoreVo() {}
 
 public ScoreVo(String sno,String mName,String exam,int grade,int kor,int eng, int mat) {
 	this.sno=sno;
@@ -19,13 +23,15 @@ public ScoreVo(String sno,String mName,String exam,int grade,int kor,int eng, in
 	this.kor=kor;
 	this.eng=eng;
 	this.mat=mat;
+	this.tot=(kor+eng+mat);
+	this.avg=(double)tot/3;
 			
 	
 	
 }
 
 @Override
-public boolean equals(Object obj) {
+public boolean equals(Object obj) {//시그니처를 바꾸면 오버라이드 기능이 사라짐
 	boolean result = false;
 	if(obj instanceof ScoreVo) {
 		ScoreVo vo =(ScoreVo)obj;
@@ -41,7 +47,7 @@ public boolean equals(Object obj) {
 @Override
 public int hashCode() {
 	// TODO Auto-generated method stub
-	return this.sno.hashCode();
+	return sno.hashCode();
 }
 
 public String getSno() {
@@ -82,8 +88,24 @@ public int getKor() {
 
 @Override
 public String toString() {
-	// TODO Auto-generated method stub
+	
 	return sno+"-"+mName+"-"+exam+"-"+grade+"-"+kor+"-"+eng+"-"+mat;
+}
+
+public int getTot() {
+	return tot;
+}
+
+public void setTot(int tot) {
+	this.tot = tot;
+}
+
+public double getAvg() {
+	return avg;
+}
+
+public void setAvg(double avg) {
+	this.avg = avg;
 }
 
 public void setKor(int kor) {
