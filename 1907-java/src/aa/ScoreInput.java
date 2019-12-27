@@ -20,11 +20,13 @@ import java.awt.Font;
 import javax.swing.JPanel;
 
 public class ScoreInput extends JInternalFrame {
+	MemberMain mm;
 	Map<String,List<ScoreVo>> map;
 	private JLabel lblNewLabel_7;
 	private InputPanel panel;
 	private JButton btnNewButton;
 	private JLabel status;
+	
 
 	/**
 	 * Launch the application.
@@ -55,11 +57,20 @@ public class ScoreInput extends JInternalFrame {
 		getContentPane().add(getStatus());
         setVisible(true);
 	}
-	public ScoreInput(Map<String,List<ScoreVo>> map) {
+	public ScoreInput(Map<String,List<ScoreVo>> map,MemberMain mm) {//Jpanel cont
 		this();
 		this.map = map;
+		this.mm=mm;
 	}
-	
+	public void sync() {
+		Object[] obj =mm.getContentPane().getComponents();
+		for(int i=0;i<obj.length;i++) {
+			if(obj[i] instanceof ScoreSearch) {
+				ScoreSearch ss = (ScoreSearch)obj[i];
+						ss.btnfind.doClick();
+			}
+		}
+	}
 	
 	
 	private JLabel getLblNewLabel_7() {
@@ -107,6 +118,7 @@ public class ScoreInput extends JInternalFrame {
 					boolean b = dao.insert(vo);
 					if(b) {
 						status.setText("데이터가 저장되었습니다.");
+						sync();
 					}else {
 						status.setText("저장중 오류 발생.");
 					}

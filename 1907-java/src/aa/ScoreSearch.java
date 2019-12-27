@@ -23,6 +23,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 public class ScoreSearch extends JInternalFrame {
+	
 	Map<String,List<ScoreVo>> map;
 	List<ScoreVo>list;
 	DefaultListModel<String> modelSno = new DefaultListModel<String>();
@@ -39,11 +40,12 @@ public class ScoreSearch extends JInternalFrame {
 	private JScrollPane scrollPane_1;
 	private JList listExam;
 	private JTextField textField;
-	private JButton btnNewButton;
+	public JButton btnfind;
 	private InputPanel panel;
 	private JButton btnNewButton_1;
 	private JButton btnNewButton_2;
 	private JLabel status;
+	
 
 	/**
 	 * Launch the application.
@@ -73,7 +75,7 @@ public class ScoreSearch extends JInternalFrame {
 		getContentPane().add(getScrollPane_1());
 		getContentPane().add(getScrollPane_1_1());
 		getContentPane().add(getTextField());
-		getContentPane().add(getBtnNewButton());
+		getContentPane().add(getBtnfind());
 		getContentPane().add(getPanel());
 		getContentPane().add(getBtnNewButton_1());
 		getContentPane().add(getBtnNewButton_2());
@@ -195,10 +197,10 @@ public class ScoreSearch extends JInternalFrame {
 		}
 		return textField;
 	}
-	private JButton getBtnNewButton() {
-		if (btnNewButton == null) {
-			btnNewButton = new JButton("\uAC80\uC0C9");//검색
-			btnNewButton.addActionListener(new ActionListener() {
+	private JButton getBtnfind() {
+		if (btnfind == null) {
+			btnfind = new JButton("\uAC80\uC0C9");//검색
+			btnfind.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
 					
@@ -235,9 +237,9 @@ public class ScoreSearch extends JInternalFrame {
 					
 				}
 			});
-			btnNewButton.setBounds(518, 59, 97, 23);
+			btnfind.setBounds(518, 59, 97, 23);
 		}
-		return btnNewButton;
+		return btnfind;
 	}
 	private JPanel getPanel() {
 		if (panel == null) {

@@ -1,12 +1,14 @@
 package aa;
 
 import java.awt.EventQueue;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -22,6 +24,12 @@ public class MemberMain extends JFrame {
 	private JMenu mnNewMenu;
 	private JMenuItem mntmNewMenuItem;
 	private JMenuItem mntmNewMenuItem_1;
+	private JMenu mnNewMenu_1;
+	private JMenuItem mntmNewMenuItem_2;
+	private JMenuItem mntmNewMenuItem_3;
+	private JMenuItem mntmNewMenuItem_4;
+	private JMenuItem mntmNewMenuItem_5;
+	private JMenuItem mntmTreemap;
 
 	/**
 	 * Launch the application.
@@ -81,12 +89,13 @@ public class MemberMain extends JFrame {
 		if (menuBar == null) {
 			menuBar = new JMenuBar();
 			menuBar.add(getMnNewMenu());
+			menuBar.add(getMnNewMenu_1());
 		}
 		return menuBar;
 	}
 	private JMenu getMnNewMenu() {
 		if (mnNewMenu == null) {
-			mnNewMenu = new JMenu("New menu");
+			mnNewMenu = new JMenu("\uC131\uC801\uAD00\uB9AC");
 			mnNewMenu.add(getMntmNewMenuItem());
 			mnNewMenu.add(getMntmNewMenuItem_1());
 		}
@@ -97,8 +106,9 @@ public class MemberMain extends JFrame {
 			mntmNewMenuItem = new JMenuItem("\uC785\uB825");//ют╥б
 			mntmNewMenuItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					ScoreInput a= new ScoreInput(map);
+					ScoreInput a= new ScoreInput(map,MemberMain.this);
 					contentPane.add(a);
+					
 				}
 			});
 		}
@@ -116,5 +126,81 @@ public class MemberMain extends JFrame {
 			});
 		}
 		return mntmNewMenuItem_1;
+	}
+	private JMenu getMnNewMenu_1() {
+		if (mnNewMenu_1 == null) {
+			mnNewMenu_1 = new JMenu("\uAE30\uD0C0 \uCEEC\uB809\uC158");
+			mnNewMenu_1.add(getMntmNewMenuItem_2());
+			mnNewMenu_1.add(getMntmNewMenuItem_3());
+			mnNewMenu_1.add(getMntmTreemap());
+			mnNewMenu_1.add(getMntmNewMenuItem_4());
+			mnNewMenu_1.add(getMntmNewMenuItem_5());
+		}
+		return mnNewMenu_1;
+	}
+	private JMenuItem getMntmNewMenuItem_2() {
+		if (mntmNewMenuItem_2 == null) {
+			mntmNewMenuItem_2 = new JMenuItem("Properties");
+			mntmNewMenuItem_2.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					PropertiesFrame a = new PropertiesFrame();
+					contentPane.add(a);
+					a.toFront();
+				}
+			});
+		}
+		return mntmNewMenuItem_2;
+	}
+	private JMenuItem getMntmNewMenuItem_3() {
+		if (mntmNewMenuItem_3 == null) {
+			mntmNewMenuItem_3 = new JMenuItem("TreeSet");
+			mntmNewMenuItem_3.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					TreeSetFrame a= new TreeSetFrame();
+					contentPane.add(a);
+					a.toFront();
+				}
+			});
+		}
+		return mntmNewMenuItem_3;
+	}
+	private JMenuItem getMntmNewMenuItem_4() {
+		if (mntmNewMenuItem_4 == null) {
+			mntmNewMenuItem_4 = new JMenuItem("Stack");
+			mntmNewMenuItem_4.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					StackFrame a= new StackFrame();
+					contentPane.add(a);
+					a.toFront();
+				}
+			});
+		}
+		return mntmNewMenuItem_4;
+	}
+	private JMenuItem getMntmNewMenuItem_5() {
+		if (mntmNewMenuItem_5 == null) {
+			mntmNewMenuItem_5 = new JMenuItem("Queue");
+			mntmNewMenuItem_5.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					QueueFrame a= new QueueFrame();
+					contentPane.add(a);
+					a.toFront();
+				}
+			});
+		}
+		return mntmNewMenuItem_5;
+	}
+	private JMenuItem getMntmTreemap() {
+		if (mntmTreemap == null) {
+			mntmTreemap = new JMenuItem("TreeMap");
+			mntmTreemap.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					TreeMapFrame a= new TreeMapFrame();
+					contentPane.add(a);
+					a.toFront();
+				}
+			});
+		}
+		return mntmTreemap;
 	}
 }
