@@ -14,7 +14,7 @@ import java.awt.event.ActionEvent;
 
 public class MemberInput extends JInternalFrame {
 
-	List<MemberVo> list;
+	
 	private JLabel lblNewLabel;
 	private JLabel lblNewLabel_1;
 	private JLabel lblNewLabel_2;
@@ -64,10 +64,6 @@ public class MemberInput extends JInternalFrame {
 
 	}
 
-	public MemberInput(List<MemberVo> list) {
-		this();
-		this.list = list;
-	}
 
 	public void input() {
        String id = mId.getText();
@@ -76,7 +72,9 @@ public class MemberInput extends JInternalFrame {
        String ph = phone.getText();
        
        MemberVo vo = new MemberVo(id,p,n,ph);
-       this.list.add(vo);
+       MemberDao dao = new MemberDao();
+       boolean b = dao.insert(vo);
+       if(b) {
        
        //mId.setText("");
        pwd.setText("");
@@ -85,8 +83,9 @@ public class MemberInput extends JInternalFrame {
 		
 	   mId.requestFocus();
 	   mId.selectAll();	
-		
-	   status.setText("회원 정보가 추가 입력됨."+list.size()+"건 ");
+	   //status.setText("회원 정보가 추가 입력됨."+list.size()+"건 ");
+       }
+       status.setText("데이터 저장중 오류 발생.");
 	}
 
 	private JLabel getLblNewLabel() {

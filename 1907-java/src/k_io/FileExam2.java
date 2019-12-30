@@ -17,8 +17,8 @@ public class FileExam2 extends JFrame {
 	
 	
 	static String idCheck="\\w{4,10}";
-	static String pwdCheck="[\\w!$] {4,10}";
-	static String nameCheck="[∞°-»’] {2,20}";
+	static String pwdCheck="[\\w!$]{4,10}";
+	static String nameCheck="[∞°-»’]{2,20}";
 	static String phoneCheck="\\d{2,3}-\\d{3,4}-\\d{4}";
 
 	private JDesktopPane contentPane;

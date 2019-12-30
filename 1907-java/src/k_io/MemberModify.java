@@ -68,100 +68,88 @@ public class MemberModify extends JInternalFrame {
 		setVisible(true);
 	}
 
-	public MemberModify(List<MemberVo> list) {
-		this();
-		this.list = list;
-	}
-
 	public void search() {
+		index = -1;
 		pwd.setText("");
 		mName.setText("");
 		phone.setText("");
-		index= -1;
 		String ab = mId.getText();
-		for(int i =0;i<list.size();i++) {
-			MemberVo vo = list.get(i);
-			if (vo.getmId().equals(ab)) {
-                   index=i;
-                   break;
-			}
-		}
+		MemberDao dao = new MemberDao();
+		MemberVo vo = dao.search(ab);
 
-		if (index >= 0) {
-			MemberVo vo=list.get(index);
-            
-            pwd.setText(vo.getPwd());
-            mName.setText(vo.getmName());
-            phone.setText(vo.getPhone());
-            
-           status.setBackground(Color.BLUE);
-            status.setText("자료가 검색되었습니다.");
-            
+		if (vo != null) {
+
+			pwd.setText(vo.getPwd());
+			mName.setText(vo.getmName());
+			phone.setText(vo.getPhone());
+
+			status.setBackground(Color.BLUE);
+			status.setText("자료가 검색되었습니다.");
+
 		} else {
-			 status.setText("찾는 자료가 없습니다.");
-			 
-			 mId.requestFocus();
-			 mId.selectAll();
+			status.setText("찾는 자료가 없습니다.");
+
+			mId.requestFocus();
+			mId.selectAll();
 		}
 
 	}
 
 	public void modify() {
-		if(index>=0) {
-			String id=mId.getText();
-			String p=pwd.getText();
-			String n=mName.getText();
-			String ph=phone.getText();
-			
-			
-			
-		
-		
-		/*String a=pwd.getText();
-		MemberVo vo = list.get(index);
-		vo.setPwd(a);*/
-		
-		
-		
-		
-		
-		
+
+		String id = mId.getText();
+		String p = pwd.getText();
+		String n = mName.getText();
+		String ph = phone.getText();
+
+		/*
+		 * String a=pwd.getText(); MemberVo vo = list.get(index); vo.setPwd(a);
+		 */
+
 		status.setText("수정이 완료되었습니다.");
-		/*boolean flag=
-				Pattern.matches(FileExam2.idCheck,id)&&
-				Pattern.matches(FileExam2.pwdCheck,p)&&
-				Pattern.matches(FileExam2.nameCheck,n)&&
-				Pattern.matches(FileExam2.phoneCheck,ph);
-		
-		
-		if(flag) {
-			MemberVo vo=new MemberVo(id,p,n,ph);
-			list.set(index, vo);
-		}else {
+		/*
+		 * boolean flag= Pattern.matches(FileExam2.idCheck,id)&&
+		 * Pattern.matches(FileExam2.pwdCheck,p)&&
+		 * Pattern.matches(FileExam2.nameCheck,n)&&
+		 * Pattern.matches(FileExam2.phoneCheck,ph);
+		 */
+		boolean flag = (true);
+		if (flag) {
+			MemberVo vo = new MemberVo(id, p, n, ph);
+			MemberDao dao = new MemberDao();
+			boolean b = dao.modify(vo);
+			if (b) {
+				status.setBackground(Color.BLUE);
+				status.setText("자료가 수정되었습니다.");
+			} else {
+				status.setBackground(Color.RED);
+				status.setText("저장중 오류가 발생 했습니다.");
+			}
+		} else {
+			status.setBackground(Color.RED);
 			status.setText("입력 자료를 확인해 주세요");
-		}*/
-		
-		
 		}
-		
-		
-		
-		
-		//list.setvo
-		
-		
-		
-		
+
+		// list.setvo
 
 	}
 
 	public void delete() {
-		//MemberVo vo = list.get(index);
-		list.remove(index);
-		index=-1;
-		status.setText("삭제가 완료되었습니다.");
+		// MemberVo vo = list.get(index);
+		String findMid = mId.getText();
+		MemberDao dao = new MemberDao();
+		boolean b= dao.delete(findMid);
+		if(b) {
 		
-    //list.removeVo
+		status.setText("삭제가 완료되었습니다.");
+        
+		pwd.setText("");
+		mName.setText("");
+		phone.setText("");
+		}else {
+			status.setText("자료 삭제중 오류 발생.");
+		}
+		// list.removeVo
 	}
 
 	private JLabel getLblNewLabel() {

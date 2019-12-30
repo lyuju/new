@@ -6,7 +6,7 @@ public class MemberVo implements Serializable {//직렬화
 	
 	
     public static long serialVerssionUID = 1L;//자바가 통신이나 직렬화할때 번호체크 동일한 컴퓨터에서 컴파일한거라 생각
-    //번호가같으면 ,서로 다른 컴퓨터에서 컴파일 하더라도 위의 번호값이 같으면 동일한 컴퓨터에서 컴파일한 파일로 인식
+    //번호가같으면 ,서로 다른 컴퓨터에서 컴파일 하더라도 위의 번호값이 같으면 동일한 컴퓨터에서 컴파일한 파일로 인식, 직렬화하지않은 데이터는 저장 전송 안됨
     //통신할때는 직렬화 필요하다
 
 	private String mId;
@@ -26,7 +26,7 @@ public class MemberVo implements Serializable {//직렬화
 	@Override
 	public int hashCode() {
 
-		return mId.hashCode() + phone.hashCode();// 추후 변경
+		return mId.hashCode() + phone.hashCode();// 추후 변경/동등 객체, 값이똑같다와는 다르다 값이달라도 똑같다고 판단함,
 	}
 
 	@Override
