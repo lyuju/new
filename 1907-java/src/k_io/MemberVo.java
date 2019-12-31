@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class MemberVo implements Serializable {//직렬화
 	
 	
-    public static long serialVerssionUID = 1L;//자바가 통신이나 직렬화할때 번호체크 동일한 컴퓨터에서 컴파일한거라 생각
+    public static long serialVersionUID = 1L;//자바가 통신이나 직렬화할때 번호체크 동일한 컴퓨터에서 컴파일한거라 생각
     //번호가같으면 ,서로 다른 컴퓨터에서 컴파일 하더라도 위의 번호값이 같으면 동일한 컴퓨터에서 컴파일한 파일로 인식, 직렬화하지않은 데이터는 저장 전송 안됨
     //통신할때는 직렬화 필요하다
 

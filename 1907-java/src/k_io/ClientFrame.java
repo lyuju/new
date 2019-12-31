@@ -1,31 +1,50 @@
 package k_io;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.InetAddress;
+import java.net.Socket;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JScrollPane;
-import javax.swing.JList;
-import javax.swing.JTextPane;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.JTextPane;
+import javax.swing.border.EmptyBorder;
+import javax.swing.text.html.HTMLDocument;
+import javax.swing.text.html.HTMLEditorKit;
 
-public class ClientFrame extends JFrame {
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
+public class ClientFrame extends JFrame implements Runnable {
+
+	ClientThread ct;
+	Socket socket;
+	
+
+	HTMLEditorKit kit = new HTMLEditorKit();
+	HTMLDocument doc = new HTMLDocument();
+
+	DefaultListModel<String> model = new DefaultListModel<String>();
+	
 	private JPanel contentPane;
 	private JLabel lblNewLabel;
-	private JTextField textField;
+	private JTextField serverIP;
 	private JLabel lblNewLabel_1;
-	private JTextField textField_1;
+	private JTextField port;
 	private JLabel lblNewLabel_2;
-	private JTextField txtJx;
+	private JTextField tmId;
 	private JLabel lblNewLabel_3;
-	private JTextField textField_3;
+	private JTextField tpWd;
 	private JButton btnNewButton;
 	private JButton btnNewButton_1;
 	private JScrollPane scrollPane;
@@ -36,7 +55,7 @@ public class ClientFrame extends JFrame {
 	private JLabel lblNewLabel_5;
 	private JButton btnNewButton_2;
 	private JComboBox comboBox;
-	private JTextField textField_2;
+	private JTextField message;
 	private JButton btnNewButton_3;
 
 	/**
@@ -67,21 +86,70 @@ public class ClientFrame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		contentPane.add(getLblNewLabel());
-		contentPane.add(getTextField());
+		contentPane.add(getServerIP());
 		contentPane.add(getLblNewLabel_1());
-		contentPane.add(getTextField_1());
+		contentPane.add(getPort());
 		contentPane.add(getLblNewLabel_2());
-		contentPane.add(getTxtJx());
+		contentPane.add(getTmId());
 		contentPane.add(getLblNewLabel_3());
-		contentPane.add(getTextField_3());
+		contentPane.add(getTpWd());
 		contentPane.add(getBtnNewButton());
 		contentPane.add(getBtnNewButton_1());
 		contentPane.add(getScrollPane());
 		contentPane.add(getScrollPane_1());
 		contentPane.add(getBtnNewButton_2());
 		contentPane.add(getComboBox());
-		contentPane.add(getTextField_2());
+		contentPane.add(getMessage());
 		contentPane.add(getBtnNewButton_3());
+	}
+
+	@Override
+	public void run() {
+		try {
+			String ip = serverIP.getText();
+			int p = Integer.parseInt(port.getText());
+			socket = new Socket(ip, p);
+			
+			
+			ct = new ClientThread(ClientFrame.this, socket);
+            ct.start();
+            
+            
+	 		
+		} catch (Exception ex) {
+			System.out.println("ClientFrame.run()....");
+              ex.printStackTrace();
+		}
+
+	}
+
+	public void login() throws Exception {
+		String mid = tmId.getText();
+		String pwd = tpWd.getText();
+		String msg = "hi";
+		int cmd = ChattData.LOGIN;
+
+		ChattData cd = new ChattData(mid, cmd, msg);
+		ct.oos.writeObject(cd);
+		ct.oos.flush();
+
+	}
+
+	public void send() {
+		try {
+			String mId = tmId.getText();
+			String msg = message.getText();
+			int cmd = ChattData.MESSAGE;
+			ChattData cd = new ChattData(mId, cmd, msg);
+
+			if (socket.isConnected()) {
+				ct.oos.writeObject(cd);
+				ct.oos.flush();
+			}
+		} catch (Exception ex) {
+
+		}
+
 	}
 
 	private JLabel getLblNewLabel() {
@@ -91,25 +159,24 @@ public class ClientFrame extends JFrame {
 		}
 		return lblNewLabel;
 	}
-	private JTextField getTextField() {
-		if (textField == null) {
-			textField = new JTextField();
-			textField.setBounds(48, 7, 116, 21);
-			textField.setColumns(10);
+
+	private JTextField getServerIP() {
+		if (serverIP == null) {
+			serverIP = new JTextField();
+			serverIP.setBounds(48, 7, 116, 21);
+			serverIP.setColumns(10);
 
 			try {
 				InetAddress local = InetAddress.getLocalHost();
-				textField.setText(local.getHostAddress());
+				serverIP.setText(local.getHostAddress());
 			} catch (Exception ex) {
 
 			}
-			
-			
-			
-			
+
 		}
-		return textField;
+		return serverIP;
 	}
+
 	private JLabel getLblNewLabel_1() {
 		if (lblNewLabel_1 == null) {
 			lblNewLabel_1 = new JLabel("\uD3EC\uD2B8");
@@ -117,15 +184,17 @@ public class ClientFrame extends JFrame {
 		}
 		return lblNewLabel_1;
 	}
-	private JTextField getTextField_1() {
-		if (textField_1 == null) {
-			textField_1 = new JTextField();
-			textField_1.setText("4444");
-			textField_1.setBounds(207, 7, 116, 21);
-			textField_1.setColumns(10);
+
+	private JTextField getPort() {
+		if (port == null) {
+			port = new JTextField();
+			port.setText("4444");
+			port.setBounds(207, 7, 116, 21);
+			port.setColumns(10);
 		}
-		return textField_1;
+		return port;
 	}
+
 	private JLabel getLblNewLabel_2() {
 		if (lblNewLabel_2 == null) {
 			lblNewLabel_2 = new JLabel("\uC544\uC774\uB514");
@@ -133,15 +202,17 @@ public class ClientFrame extends JFrame {
 		}
 		return lblNewLabel_2;
 	}
-	private JTextField getTxtJx() {
-		if (txtJx == null) {
-			txtJx = new JTextField();
-			txtJx.setText("jx");
-			txtJx.setBounds(58, 32, 116, 21);
-			txtJx.setColumns(10);
+
+	private JTextField getTmId() {
+		if (tmId == null) {
+			tmId = new JTextField();
+			tmId.setText("jx");
+			tmId.setBounds(58, 32, 116, 21);
+			tmId.setColumns(10);
 		}
-		return txtJx;
+		return tmId;
 	}
+
 	private JLabel getLblNewLabel_3() {
 		if (lblNewLabel_3 == null) {
 			lblNewLabel_3 = new JLabel("\uC554\uD638");
@@ -149,22 +220,32 @@ public class ClientFrame extends JFrame {
 		}
 		return lblNewLabel_3;
 	}
-	private JTextField getTextField_3() {
-		if (textField_3 == null) {
-			textField_3 = new JTextField();
-			textField_3.setText("1234");
-			textField_3.setBounds(217, 32, 116, 21);
-			textField_3.setColumns(10);
+
+	private JTextField getTpWd() {
+		if (tpWd == null) {
+			tpWd = new JTextField();
+			tpWd.setText("1234");
+			tpWd.setBounds(217, 32, 116, 21);
+			tpWd.setColumns(10);
 		}
-		return textField_3;
+		return tpWd;
 	}
+
 	private JButton getBtnNewButton() {
 		if (btnNewButton == null) {
-			btnNewButton = new JButton("\uC811\uC18D");
+			btnNewButton = new JButton("\uC811\uC18D");// 접속
+			btnNewButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					Thread t = new Thread(ClientFrame.this);
+					t.start();
+
+				}
+			});
 			btnNewButton.setBounds(342, 6, 63, 44);
 		}
 		return btnNewButton;
 	}
+
 	private JButton getBtnNewButton_1() {
 		if (btnNewButton_1 == null) {
 			btnNewButton_1 = new JButton("\uC885\uB8CC");
@@ -172,6 +253,7 @@ public class ClientFrame extends JFrame {
 		}
 		return btnNewButton_1;
 	}
+
 	private JScrollPane getScrollPane() {
 		if (scrollPane == null) {
 			scrollPane = new JScrollPane();
@@ -181,12 +263,17 @@ public class ClientFrame extends JFrame {
 		}
 		return scrollPane;
 	}
+
 	private JList getList() {
 		if (list == null) {
 			list = new JList();
+			
+			list.setModel(model);
+			
 		}
 		return list;
 	}
+
 	private JScrollPane getScrollPane_1() {
 		if (scrollPane_1 == null) {
 			scrollPane_1 = new JScrollPane();
@@ -196,24 +283,32 @@ public class ClientFrame extends JFrame {
 		}
 		return scrollPane_1;
 	}
-	private JTextPane getTextPane() {
+
+	public JTextPane getTextPane() {
 		if (textPane == null) {
 			textPane = new JTextPane();
+			textPane.setContentType("text/html");
+
+			textPane.setEditorKit(kit);
+			textPane.setDocument(doc);
 		}
 		return textPane;
 	}
+
 	private JLabel getLblNewLabel_4() {
 		if (lblNewLabel_4 == null) {
 			lblNewLabel_4 = new JLabel("\uC811\uC18D\uC790");
 		}
 		return lblNewLabel_4;
 	}
+
 	private JLabel getLblNewLabel_5() {
 		if (lblNewLabel_5 == null) {
 			lblNewLabel_5 = new JLabel("\uBA54\uC2DC\uC9C0");
 		}
 		return lblNewLabel_5;
 	}
+
 	private JButton getBtnNewButton_2() {
 		if (btnNewButton_2 == null) {
 			btnNewButton_2 = new JButton("\uD574\uC81C");
@@ -221,6 +316,7 @@ public class ClientFrame extends JFrame {
 		}
 		return btnNewButton_2;
 	}
+
 	private JComboBox getComboBox() {
 		if (comboBox == null) {
 			comboBox = new JComboBox();
@@ -230,17 +326,35 @@ public class ClientFrame extends JFrame {
 		}
 		return comboBox;
 	}
-	private JTextField getTextField_2() {
-		if (textField_2 == null) {
-			textField_2 = new JTextField();
-			textField_2.setBounds(156, 331, 249, 21);
-			textField_2.setColumns(10);
+
+	private JTextField getMessage() {
+		if (message == null) {
+			message = new JTextField();
+			message.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyReleased(KeyEvent e) {
+					if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+						send();
+					}
+
+				}
+			});
+			message.setBounds(156, 331, 249, 21);
+			message.setColumns(10);
 		}
-		return textField_2;
+		return message;
 	}
+
 	private JButton getBtnNewButton_3() {
 		if (btnNewButton_3 == null) {
-			btnNewButton_3 = new JButton("\uC804\uC1A1");
+			btnNewButton_3 = new JButton("\uC804\uC1A1");// 전송
+			btnNewButton_3.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+
+					send();
+
+				}
+			});
 			btnNewButton_3.setBounds(408, 330, 63, 23);
 		}
 		return btnNewButton_3;

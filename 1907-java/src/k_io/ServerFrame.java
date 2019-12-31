@@ -1,30 +1,43 @@
 package k_io;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JScrollPane;
-import javax.swing.JList;
-import javax.swing.SwingConstants;
-import javax.swing.JTextPane;
 import javax.swing.JComboBox;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.JTextPane;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+import javax.swing.text.html.HTMLDocument;
+import javax.swing.text.html.HTMLEditorKit;
 
 public class ServerFrame extends JFrame implements Runnable {
 
-	
 	ServerSocket server;
+
+	HTMLEditorKit kit = new HTMLEditorKit();
+	HTMLDocument doc = new HTMLDocument();
+
+	List<ServerThread> clients = new ArrayList<ServerThread>();
+	
+    DefaultListModel<String> model = new DefaultListModel<String>();
+    
+	
 	private JPanel contentPane;
 	private JLabel lblNewLabel;
 	private JTextField textField;
@@ -85,31 +98,42 @@ public class ServerFrame extends JFrame implements Runnable {
 		contentPane.add(getTextField_2());
 		contentPane.add(getBtnNewButton_4());
 	}
-	
+
 	@Override
-	
+
 	public void run() {
-		
+
 		try {
 			int p = Integer.parseInt(port.getText());
 			server = new ServerSocket(p);
-			System.out.println("서버가 시작됨.");
-			while(true) {
-				System.out.println("접속 대기.");
+			String html = "<font size ='5' color ='#690990'>서버가 시작됨</font>";
+			kit.insertHTML(doc, doc.getLength(), html, 0, 0, null);
+
+			while (true) {
+				html = "[클라이언트 접속 대기중]";
+				kit.insertHTML(doc, doc.getLength(), html, 0, 0, null);
+
 				Socket ClientSocket = server.accept();
-				InetSocketAddress addr = (InetSocketAddress)ClientSocket.getRemoteSocketAddress();
-						
-				System.out.println(addr.getHostName()+"이(가) 접속함.");
+				ServerThread st = new ServerThread(ServerFrame.this, ClientSocket);
+				//serverThread readObject하는게 중요한 역할
+				st.start();
+				clients.add(st);
+                
+				InetSocketAddress addr = (InetSocketAddress) ClientSocket.getRemoteSocketAddress();
+
+				html = "<div style = 'border:1px solid #ff0000;padding:5px;width:150px'>"
+						+ addr.getAddress().getHostAddress() + "님이 접속함" + "</div>";
+				kit.insertHTML(doc, doc.getLength(), html, 0, 0, null);
+
+				textPane.scrollRectToVisible(new Rectangle(0, textPane.getHeight() + 100, 1, 1));
 			}
-			
-			
-		}catch(Exception ex) {
-			
+
+		} catch (Exception ex) {
+
 			ex.printStackTrace();
-			
+
 		}
-		
-		
+
 	}
 
 	private JLabel getLblNewLabel() {
@@ -160,10 +184,10 @@ public class ServerFrame extends JFrame implements Runnable {
 			btnNewButton = new JButton("\uC2DC\uC791");
 			btnNewButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
-					Thread t = new Thread(ServerFrame.this);//Runnable 타입
-                     t.start();					
-					
+
+					Thread t = new Thread(ServerFrame.this);// Runnable 타입
+					t.start();
+
 				}
 			});
 			btnNewButton.setBounds(370, 6, 73, 23);
@@ -192,6 +216,7 @@ public class ServerFrame extends JFrame implements Runnable {
 	private JList getList() {
 		if (list == null) {
 			list = new JList();
+			list.setModel(model);
 		}
 		return list;
 	}
@@ -214,10 +239,12 @@ public class ServerFrame extends JFrame implements Runnable {
 		return scrollPane_1;
 	}
 
-	private JTextPane getTextPane() {
+	public JTextPane getTextPane() {
 		if (textPane == null) {
 			textPane = new JTextPane();
 			textPane.setContentType("text/html");
+			textPane.setEditorKit(kit);
+			textPane.setDocument(doc);
 		}
 		return textPane;
 	}
