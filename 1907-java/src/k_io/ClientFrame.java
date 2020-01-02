@@ -3,10 +3,13 @@ package k_io;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -21,9 +24,6 @@ import javax.swing.JTextPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
-
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 public class ClientFrame extends JFrame implements Runnable {
 
@@ -134,6 +134,31 @@ public class ClientFrame extends JFrame implements Runnable {
 		ct.oos.flush();
 
 	}
+	//1)서버에게 로그아웃 통보
+	//2)자신의 유저목록을 모두 제거
+	//3)ClientThread를 종료
+	public void logout() {
+		ChattData cd = new ChattData();
+		cd.setmId(tmId.getText());
+		cd.setCommand(ChattData.LOGOUT);
+		try {
+			ct.oos.writeObject(cd);
+			ct.oos.flush();
+			model.clear();
+			ct.stop();
+			socket.close();
+			socket = null;
+			
+			
+			
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
+		
+		
+		
+	}
 
 	public void send() {
 		try {
@@ -141,6 +166,18 @@ public class ClientFrame extends JFrame implements Runnable {
 			String msg = message.getText();
 			int cmd = ChattData.MESSAGE;
 			ChattData cd = new ChattData(mId, cmd, msg);
+			
+			
+			if(comboBox.getSelectedIndex()==1) {
+			 Object[] obj = getList().getSelectedValues();
+			 List<String> users= new ArrayList<String>();
+			 for(Object str: obj ) {
+				 users.add((String)str);
+			 }
+			 cd.setUsers(users);
+			 cd.setCommand(ChattData.WHISPER);
+				
+			}
 
 			if (socket.isConnected()) {
 				ct.oos.writeObject(cd);
@@ -203,7 +240,7 @@ public class ClientFrame extends JFrame implements Runnable {
 		return lblNewLabel_2;
 	}
 
-	private JTextField getTmId() {
+	public JTextField getTmId() {
 		if (tmId == null) {
 			tmId = new JTextField();
 			tmId.setText("jx");
@@ -249,6 +286,13 @@ public class ClientFrame extends JFrame implements Runnable {
 	private JButton getBtnNewButton_1() {
 		if (btnNewButton_1 == null) {
 			btnNewButton_1 = new JButton("\uC885\uB8CC");
+			btnNewButton_1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					logout();
+					
+					
+				}
+			});
 			btnNewButton_1.setBounds(423, 6, 63, 44);
 		}
 		return btnNewButton_1;
@@ -264,7 +308,7 @@ public class ClientFrame extends JFrame implements Runnable {
 		return scrollPane;
 	}
 
-	private JList getList() {
+	public JList getList() {
 		if (list == null) {
 			list = new JList();
 			
@@ -335,6 +379,9 @@ public class ClientFrame extends JFrame implements Runnable {
 				public void keyReleased(KeyEvent e) {
 					if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 						send();
+						
+						
+						
 					}
 
 				}

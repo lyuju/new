@@ -25,6 +25,12 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
+import java.awt.Color;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class ServerFrame extends JFrame implements Runnable {
 
@@ -56,6 +62,8 @@ public class ServerFrame extends JFrame implements Runnable {
 	private JTextField textField_2;
 	private JButton btnNewButton_4;
 	private JLabel lblNewLabel_3;
+	private JTextField textField_1;
+	private JTextField message;
 
 	/**
 	 * Launch the application.
@@ -77,6 +85,12 @@ public class ServerFrame extends JFrame implements Runnable {
 	 * Create the frame.
 	 */
 	public ServerFrame() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				serverStop();
+			}
+		});
 		setTitle("\uCC44\uD305 \uC11C\uBC84");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 538, 430);
@@ -95,8 +109,10 @@ public class ServerFrame extends JFrame implements Runnable {
 		contentPane.add(getBtnNewButton_2());
 		contentPane.add(getBtnNewButton_3());
 		contentPane.add(getComboBox());
-		contentPane.add(getTextField_2());
+		
 		contentPane.add(getBtnNewButton_4());
+		contentPane.add(getMessage());
+		
 	}
 
 	@Override
@@ -135,6 +151,73 @@ public class ServerFrame extends JFrame implements Runnable {
 		}
 
 	}
+	
+	public void send() {//enter,전송
+		ChattData cd = new ChattData();
+		cd.setmId("SERVER");
+		cd.setCommand(ChattData.MESSAGE);
+		cd.setMessage(message.getText());
+		if(comboBox.getSelectedIndex()==0){
+        sendAll(cd);		
+		}else {
+		int[] indexs = getList().getSelectedIndices();
+		sendAll(cd,indexs);
+		}
+	}
+	public void sendAll(ChattData cd) {
+		for(ServerThread st : clients) {
+			try {
+				st.oos.writeObject(cd);
+				st.oos.flush();
+				
+			}catch(Exception ex) {
+				
+			}
+		}
+		
+	}
+	
+	public void sendAll(ChattData cd,int[] to) {//귓속말
+		for(int i =0; i<to.length;i++) {
+			ServerThread st = clients.get(to[i]);
+			try {
+			st.oos.writeObject(cd);
+			st.oos.flush();
+			}catch(Exception ex) {
+				
+			}
+		}
+		
+		
+		
+	}
+	
+	
+	//모든 유저들에게 서버 종료 통보(GETOUT)
+	//clients의 ServerThread를 종료
+	//접속자목록을 모두 제거
+	//serverSocket 종료
+	public void serverStop() {
+		ChattData cd = new ChattData();
+		cd.setCommand(ChattData.GETOUT);
+		cd.setmId("SERVER");
+		sendAll(cd);
+		
+		clients.clear();
+		clients = new ArrayList<ServerThread>();
+		
+		model.clear();
+		
+		try {
+			server.close();
+			server = null;
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
+		
+	}
+	
 
 	private JLabel getLblNewLabel() {
 		if (lblNewLabel == null) {
@@ -182,11 +265,15 @@ public class ServerFrame extends JFrame implements Runnable {
 	private JButton getBtnNewButton() {
 		if (btnNewButton == null) {
 			btnNewButton = new JButton("\uC2DC\uC791");
+			btnNewButton.setForeground(new Color(0, 0, 0));
+			btnNewButton.setBackground(new Color(220, 20, 60));
 			btnNewButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 
 					Thread t = new Thread(ServerFrame.this);// Runnable 타입
 					t.start();
+					btnNewButton.setEnabled(false);
+					btnNewButton_1.setEnabled(true);
 
 				}
 			});
@@ -197,7 +284,14 @@ public class ServerFrame extends JFrame implements Runnable {
 
 	private JButton getBtnNewButton_1() {
 		if (btnNewButton_1 == null) {
-			btnNewButton_1 = new JButton("\uC885\uB8CC");
+			btnNewButton_1 = new JButton("\uC885\uB8CC");//종료
+			btnNewButton_1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					serverStop();
+					btnNewButton_1.setEnabled(false);
+					btnNewButton.setEnabled(true);
+				}
+			});
 			btnNewButton_1.setBounds(446, 6, 76, 23);
 		}
 		return btnNewButton_1;
@@ -251,7 +345,22 @@ public class ServerFrame extends JFrame implements Runnable {
 
 	private JButton getBtnNewButton_2() {
 		if (btnNewButton_2 == null) {
-			btnNewButton_2 = new JButton("\uAC15\uD1F4");
+			btnNewButton_2 = new JButton("\uAC15\uD1F4");//강퇴
+			btnNewButton_2.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					Object[] indexs = getList().getSelectedValues();
+					ChattData cd = new ChattData();
+					cd.setCommand(ChattData.GETOUT);
+					cd.setmId("SERVER");
+					List<String> users = new ArrayList<String>();
+					for(int i =0; i<indexs.length;i++) {
+						users.add((String)indexs[i]);
+					}
+					cd.setUsers(users);
+					sendAll(cd);
+					
+				}
+			});
 			btnNewButton_2.setBounds(12, 313, 73, 23);
 		}
 		return btnNewButton_2;
@@ -259,7 +368,13 @@ public class ServerFrame extends JFrame implements Runnable {
 
 	private JButton getBtnNewButton_3() {
 		if (btnNewButton_3 == null) {
-			btnNewButton_3 = new JButton("\uD574\uC81C");
+			btnNewButton_3 = new JButton("\uD574\uC81C");//해제
+			btnNewButton_3.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					getList().clearSelection();
+					
+				}
+			});
 			btnNewButton_3.setBounds(94, 313, 73, 23);
 		}
 		return btnNewButton_3;
@@ -275,18 +390,17 @@ public class ServerFrame extends JFrame implements Runnable {
 		return comboBox;
 	}
 
-	private JTextField getTextField_2() {
-		if (textField_2 == null) {
-			textField_2 = new JTextField();
-			textField_2.setBounds(188, 350, 199, 21);
-			textField_2.setColumns(10);
-		}
-		return textField_2;
-	}
+	
 
 	private JButton getBtnNewButton_4() {
 		if (btnNewButton_4 == null) {
-			btnNewButton_4 = new JButton("\uC804\uC1A1");
+			btnNewButton_4 = new JButton("\uC804\uC1A1");//전송
+			btnNewButton_4.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					send();
+					
+				}
+			});
 			btnNewButton_4.setBounds(399, 349, 97, 23);
 		}
 		return btnNewButton_4;
@@ -298,5 +412,21 @@ public class ServerFrame extends JFrame implements Runnable {
 			lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
 		}
 		return lblNewLabel_3;
+	}
+	private JTextField getMessage() {
+		if (message == null) {
+			message = new JTextField();
+			message.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyReleased(KeyEvent e) {
+					if(e.getKeyCode()==KeyEvent.VK_ENTER) {
+						send();
+					}
+				}
+			});
+			message.setBounds(195, 346, 172, 21);
+			message.setColumns(10);
+		}
+		return message;
 	}
 }
