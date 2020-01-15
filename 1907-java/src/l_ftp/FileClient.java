@@ -83,7 +83,9 @@ public class FileClient extends JFrame {
 		JFileChooser fc = new JFileChooser();// 파일추저 자체가 하나하나의 쓰레드
 		fc.setMultiSelectionEnabled(true);
 		int flag = fc.showOpenDialog(FileClient.this);
-		if (flag == JFileChooser.APPROVE_OPTION) {
+		int a=0;
+		if (flag == a) {
+			
 			File[] tempFiles = fc.getSelectedFiles();
 			files = new ArrayList<FileTransfer>();
 			for (File f : tempFiles) {
@@ -91,7 +93,7 @@ public class FileClient extends JFrame {
 				files.add(ft);
 				panel_1.add(ft);
 				panel_1.updateUI();
-
+ 
 			}
 		}
 
