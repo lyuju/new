@@ -4,26 +4,28 @@ import java.awt.EventQueue;
 
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 import javax.swing.JTextField;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.text.SimpleDateFormat;
-import java.awt.event.ActionEvent;
 
-public class MemberDelete extends JInternalFrame {
+public class ScoreDelect extends JInternalFrame {
 	private JLabel lblNewLabel;
 	private JLabel lblNewLabel_1;
 	private JLabel lblNewLabel_2;
 	private JLabel lblNewLabel_3;
 	private JLabel lblNewLabel_4;
+	private JLabel lblNewLabel_5;
 	private JTextField tmId;
 	private JTextField tmName;
 	private JTextField trDate;
-	private JComboBox tGrade;
+	private JTextField tSco;
 	private JButton btnNewButton;
 	private JButton btnNewButton_1;
+	private JTextField tGrade;
+	private JLabel lblNewLabel_6;
+	private JTextField tSer;
 
 	/**
 	 * Launch the application.
@@ -32,7 +34,7 @@ public class MemberDelete extends JInternalFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MemberDelete frame = new MemberDelete();
+					ScoreDelect frame = new ScoreDelect();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -44,9 +46,7 @@ public class MemberDelete extends JInternalFrame {
 	/**
 	 * Create the frame.
 	 */
-	public MemberDelete() {
-		super("회원삭제", true, true, true, true);
-		setVisible(true);
+	public ScoreDelect() {
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(null);
 		getContentPane().add(getLblNewLabel());
@@ -54,54 +54,65 @@ public class MemberDelete extends JInternalFrame {
 		getContentPane().add(getLblNewLabel_2());
 		getContentPane().add(getLblNewLabel_3());
 		getContentPane().add(getLblNewLabel_4());
+		getContentPane().add(getLblNewLabel_5());
 		getContentPane().add(getTmId());
 		getContentPane().add(getTmName());
 		getContentPane().add(getTrDate());
-		getContentPane().add(getTGrade());
+		getContentPane().add(getTSco());
 		getContentPane().add(getBtnNewButton());
 		getContentPane().add(getBtnNewButton_1());
+		getContentPane().add(getTGrade());
+		getContentPane().add(getLblNewLabel_6());
+		getContentPane().add(getTSer());
 
 	}
-
 	private JLabel getLblNewLabel() {
 		if (lblNewLabel == null) {
-			lblNewLabel = new JLabel("\uD559\uC0DD \uC815\uBCF4 \uC0AD\uC81C");
-			lblNewLabel.setBounds(117, 20, 208, 29);
+			lblNewLabel = new JLabel("\uC131\uC801 \uC0AD\uC81C");
+			lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+			lblNewLabel.setBounds(120, 20, 117, 15);
 		}
 		return lblNewLabel;
 	}
 	private JLabel getLblNewLabel_1() {
 		if (lblNewLabel_1 == null) {
 			lblNewLabel_1 = new JLabel("\uC544\uC774\uB514");
-			lblNewLabel_1.setBounds(26, 73, 57, 15);
+			lblNewLabel_1.setBounds(25, 69, 57, 15);
 		}
 		return lblNewLabel_1;
 	}
 	private JLabel getLblNewLabel_2() {
 		if (lblNewLabel_2 == null) {
-			lblNewLabel_2 = new JLabel("\uD559\uC0DD\uBA85");
-			lblNewLabel_2.setBounds(26, 115, 57, 15);
+			lblNewLabel_2 = new JLabel("\uC131\uBA85");
+			lblNewLabel_2.setBounds(25, 94, 57, 15);
 		}
 		return lblNewLabel_2;
 	}
 	private JLabel getLblNewLabel_3() {
 		if (lblNewLabel_3 == null) {
-			lblNewLabel_3 = new JLabel("\uC785\uD559\uC77C");
-			lblNewLabel_3.setBounds(26, 152, 57, 15);
+			lblNewLabel_3 = new JLabel("\uC751\uC2DC\uC77C");
+			lblNewLabel_3.setBounds(25, 135, 57, 15);
 		}
 		return lblNewLabel_3;
 	}
 	private JLabel getLblNewLabel_4() {
 		if (lblNewLabel_4 == null) {
-			lblNewLabel_4 = new JLabel("\uD559\uB144");
-			lblNewLabel_4.setBounds(26, 180, 57, 15);
+			lblNewLabel_4 = new JLabel("\uACFC\uBAA9");
+			lblNewLabel_4.setBounds(25, 160, 57, 15);
 		}
 		return lblNewLabel_4;
+	}
+	private JLabel getLblNewLabel_5() {
+		if (lblNewLabel_5 == null) {
+			lblNewLabel_5 = new JLabel("\uC810\uC218");
+			lblNewLabel_5.setBounds(25, 185, 57, 15);
+		}
+		return lblNewLabel_5;
 	}
 	private JTextField getTmId() {
 		if (tmId == null) {
 			tmId = new JTextField();
-			tmId.setBounds(93, 70, 116, 21);
+			tmId.setBounds(92, 66, 116, 21);
 			tmId.setColumns(10);
 		}
 		return tmId;
@@ -109,7 +120,7 @@ public class MemberDelete extends JInternalFrame {
 	private JTextField getTmName() {
 		if (tmName == null) {
 			tmName = new JTextField();
-			tmName.setBounds(93, 112, 116, 21);
+			tmName.setBounds(92, 91, 116, 21);
 			tmName.setColumns(10);
 		}
 		return tmName;
@@ -117,62 +128,54 @@ public class MemberDelete extends JInternalFrame {
 	private JTextField getTrDate() {
 		if (trDate == null) {
 			trDate = new JTextField();
-			trDate.setBounds(93, 149, 116, 21);
+			trDate.setBounds(92, 132, 116, 21);
 			trDate.setColumns(10);
 		}
 		return trDate;
 	}
-	private JComboBox getTGrade() {
-		if (tGrade == null) {
-			tGrade = new JComboBox();
-			tGrade.setModel(new DefaultComboBoxModel(new String[] {" 1 \uD559\uB144", " 2 \uD559\uB144", " 3 \uD559\uB144", " 4 \uD559\uB144", " 5 \uD559\uB144", " 6 \uD559\uB144", " 7 \uD559\uB144", " 8 \uD559\uB144", " 9 \uD559\uB144", " 10 \uD559\uB144"}));
-			tGrade.setBounds(103, 177, 70, 21);
+	private JTextField getTSco() {
+		if (tSco == null) {
+			tSco = new JTextField();
+			tSco.setBounds(92, 182, 116, 21);
+			tSco.setColumns(10);
 		}
-		return tGrade;
+		return tSco;
 	}
 	private JButton getBtnNewButton() {
 		if (btnNewButton == null) {
 			btnNewButton = new JButton("\uC0AD\uC81C");
-			btnNewButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					String mId = tmId.getText();
-					MemberDao dao = new MemberDao();
-					int cnt = dao.delete(mId);
-					
-					if(cnt>0) System.out.println("삭제 성공");
-					else System.out.println("삭제중 오류발생");
-					
-					tmName.setText("");
-					trDate.setText("");
-					tGrade.setSelectedIndex(0);
-					tmId.requestFocus();
-					tmId.selectAll();
-					
-				}
-			});
-			btnNewButton.setBounds(76, 223, 97, 23);
+			btnNewButton.setBounds(92, 218, 97, 23);
 		}
 		return btnNewButton;
 	}
 	private JButton getBtnNewButton_1() {
 		if (btnNewButton_1 == null) {
-			btnNewButton_1 = new JButton("\uAC80\uC0C9");//검색
-			btnNewButton_1.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-					MemberDao dao = new MemberDao();
-					String mId = tmId.getText();
-					
-					MemberVo vo = dao.search(mId);
-					tmId.setText(vo.getmId());
-					tmName.setText(vo.getmName());
-					trDate.setText(sdf.format(vo.getrDate()));
-					tGrade.setSelectedIndex(vo.getGrade()-1);
-					
-				}
-			});
-			btnNewButton_1.setBounds(244, 69, 97, 23);
+			btnNewButton_1 = new JButton("\uC870\uD68C");
+			btnNewButton_1.setBounds(251, 65, 97, 23);
 		}
 		return btnNewButton_1;
+	}
+	private JTextField getTGrade() {
+		if (tGrade == null) {
+			tGrade = new JTextField();
+			tGrade.setBounds(92, 157, 116, 21);
+			tGrade.setColumns(10);
+		}
+		return tGrade;
+	}
+	private JLabel getLblNewLabel_6() {
+		if (lblNewLabel_6 == null) {
+			lblNewLabel_6 = new JLabel("\uC2DC\uB9AC\uC5BC");
+			lblNewLabel_6.setBounds(232, 20, 57, 15);
+		}
+		return lblNewLabel_6;
+	}
+	private JTextField getTSer() {
+		if (tSer == null) {
+			tSer = new JTextField();
+			tSer.setBounds(268, 31, 116, 21);
+			tSer.setColumns(10);
+		}
+		return tSer;
 	}
 }

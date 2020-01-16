@@ -12,6 +12,7 @@ import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 
 public class MemberInsert extends JInternalFrame {
@@ -20,10 +21,10 @@ public class MemberInsert extends JInternalFrame {
 	private JLabel lblNewLabel_2;
 	private JLabel lblNewLabel_3;
 	private JLabel lblNewLabel_4;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JComboBox comboBox;
+	private JTextField tmId;
+	private JTextField tmName;
+	private JTextField trDate;
+	private JComboBox tGrade;
 	private JButton btnNewButton;
 
 	/**
@@ -55,10 +56,10 @@ public class MemberInsert extends JInternalFrame {
 		getContentPane().add(getLblNewLabel_2());
 		getContentPane().add(getLblNewLabel_3());
 		getContentPane().add(getLblNewLabel_4());
-		getContentPane().add(getTextField());
-		getContentPane().add(getTextField_1());
-		getContentPane().add(getTextField_2());
-		getContentPane().add(getComboBox());
+		getContentPane().add(getTmId());
+		getContentPane().add(getTmName());
+		getContentPane().add(getTrDate());
+		getContentPane().add(getTGrade());
 		getContentPane().add(getBtnNewButton());
 
 	}
@@ -98,45 +99,76 @@ public class MemberInsert extends JInternalFrame {
 		}
 		return lblNewLabel_4;
 	}
-	private JTextField getTextField() {
-		if (textField == null) {
-			textField = new JTextField();
-			textField.setBounds(67, 59, 116, 21);
-			textField.setColumns(10);
+	private JTextField getTmId() {
+		if (tmId == null) {
+			tmId = new JTextField();
+			tmId.setBounds(67, 59, 116, 21);
+			tmId.setColumns(10);
 		}
-		return textField;
+		return tmId;
 	}
-	private JTextField getTextField_1() {
-		if (textField_1 == null) {
-			textField_1 = new JTextField();
-			textField_1.setBounds(67, 94, 116, 21);
-			textField_1.setColumns(10);
+	private JTextField getTmName() {
+		if (tmName == null) {
+			tmName = new JTextField();
+			tmName.setBounds(67, 94, 116, 21);
+			tmName.setColumns(10);
 		}
-		return textField_1;
+		return tmName;
 	}
-	private JTextField getTextField_2() {
-		if (textField_2 == null) {
-			textField_2 = new JTextField();
-			textField_2.setText("2020-01-15");
-			textField_2.setBounds(67, 141, 116, 21);
-			textField_2.setColumns(10);
+	private JTextField getTrDate() {
+		if (trDate == null) {
+			trDate = new JTextField();
+			trDate.setText("2020-01-15");
+			trDate.setBounds(67, 141, 116, 21);
+			trDate.setColumns(10);
 		}
-		return textField_2;
+		return trDate;
 	}
-	private JComboBox getComboBox() {
-		if (comboBox == null) {
-			comboBox = new JComboBox();
-			comboBox.setModel(new DefaultComboBoxModel(new String[] {" 1 \uD559\uB144", " 2 \uD559\uB144", " 3 \uD559\uB144", " 4 \uD559\uB144", " 5 \uD559\uB144", " 6 \uD559\uB144", " 7 \uD559\uB144", " 8 \uD559\uB144", " 9 \uD559\uB144", " 10 \uD559\uB144"}));
-			comboBox.setBounds(67, 181, 70, 21);
+	private JComboBox getTGrade() {
+		if (tGrade == null) {
+			tGrade = new JComboBox();
+			tGrade.setModel(new DefaultComboBoxModel(new String[] {" 1 \uD559\uB144", " 2 \uD559\uB144", " 3 \uD559\uB144", " 4 \uD559\uB144", " 5 \uD559\uB144", " 6 \uD559\uB144", " 7 \uD559\uB144", " 8 \uD559\uB144", " 9 \uD559\uB144", " 10 \uD559\uB144"}));
+			tGrade.setBounds(67, 181, 70, 21);
 		}
-		return comboBox;
+		return tGrade;
 	}
 	private JButton getBtnNewButton() {
 		if (btnNewButton == null) {
 			btnNewButton = new JButton("\uC785\uB825");//입력
 			btnNewButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					String mId =textField.getText();
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+					MemberDao dao = new MemberDao();
+					MemberVo vo = new MemberVo();
+					try {
+					vo.setmId(tmId.getText());
+					vo.setmName(tmName.getText());
+					vo.setrDate(sdf.parse(trDate.getText()));
+					vo.setGrade(tGrade.getSelectedIndex()-1);
+					
+					
+					
+					int cnt = dao.insert(vo);
+					if(cnt>0) System.out.println("입력 성공");
+					else System.out.println("입력중 오류발생");
+					
+					
+					}catch(Exception ex) {
+						
+					}
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					/*String mId =textField.getText();
 					String mname =textField_1.getText();
 					String date = textField_2.getText();
 					String grade= comboBox.getSelectedItem().toString();
@@ -166,7 +198,7 @@ public class MemberInsert extends JInternalFrame {
 						
 					}catch(Exception ex){
 						ex.printStackTrace();
-					}
+					}*/
 				}
 			});
 			btnNewButton.setBounds(110, 221, 97, 23);

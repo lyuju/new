@@ -17,6 +17,8 @@ public class MemberVo {
 		  this.grade=g;
 	  }
 	  
+	  
+	  
 	  public String toString() {
 		  SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		  String d = sdf.format(rDate);
