@@ -9,10 +9,15 @@ import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.awt.event.ActionEvent;
 
 public class ScoreSearch extends JInternalFrame {
+	Connection conn = DBConn.getConn();
+	ScoreDao dao = new ScoreDao();
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	private JLabel lblNewLabel;
 	private JTextField find;
 	private JButton btnNewButton;
@@ -70,14 +75,31 @@ public class ScoreSearch extends JInternalFrame {
 			btnNewButton = new JButton("\uC870\uD68C");
 			btnNewButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					ScoreDao dao = new ScoreDao();
+					String bb = find.getText();
+					List<ScoreVo> list = dao.select(bb);
+					
+					textArea.setText("");
+					for(ScoreVo vo : list){
+						textArea.append( vo.toString());
+					}
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					/*//ScoreDao dao = new ScoreDao();
 					int f = Integer.parseInt(find.getText());
 					List<ScoreVo> list = dao.select(f);
 					
 					textArea.setText("");
 					for(ScoreVo vo : list) {
 						textArea.append(vo.toString());
-					}
+					}*/
 				}
 			});
 			btnNewButton.setBounds(315, 60, 97, 23);

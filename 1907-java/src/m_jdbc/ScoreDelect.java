@@ -5,12 +5,22 @@ import java.awt.EventQueue;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import javax.swing.event.InternalFrameAdapter;
+import javax.swing.event.InternalFrameEvent;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.awt.event.ActionEvent;
 
 public class ScoreDelect extends JInternalFrame {
+	Connection conn = DBConn.getConn();
+	ScoreDao dao = new ScoreDao();
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	private JLabel lblNewLabel;
 	private JLabel lblNewLabel_1;
 	private JLabel lblNewLabel_2;
@@ -23,7 +33,7 @@ public class ScoreDelect extends JInternalFrame {
 	private JTextField tSco;
 	private JButton btnNewButton;
 	private JButton btnNewButton_1;
-	private JTextField tGrade;
+	private JTextField tSubj;
 	private JLabel lblNewLabel_6;
 	private JTextField tSer;
 
@@ -47,6 +57,19 @@ public class ScoreDelect extends JInternalFrame {
 	 * Create the frame.
 	 */
 	public ScoreDelect() {
+		super("성적수정", true, true, true, true);
+		addInternalFrameListener(new InternalFrameAdapter() {
+			@Override
+			public void internalFrameClosing(InternalFrameEvent arg0) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		setVisible(true);
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(null);
 		getContentPane().add(getLblNewLabel());
@@ -61,7 +84,7 @@ public class ScoreDelect extends JInternalFrame {
 		getContentPane().add(getTSco());
 		getContentPane().add(getBtnNewButton());
 		getContentPane().add(getBtnNewButton_1());
-		getContentPane().add(getTGrade());
+		getContentPane().add(getTSubj());
 		getContentPane().add(getLblNewLabel_6());
 		getContentPane().add(getTSer());
 
@@ -144,6 +167,19 @@ public class ScoreDelect extends JInternalFrame {
 	private JButton getBtnNewButton() {
 		if (btnNewButton == null) {
 			btnNewButton = new JButton("\uC0AD\uC81C");
+			btnNewButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					int serial = Integer.parseInt(tSer.getText());
+					int cnt = dao.delete(serial);
+					
+					if(cnt>0) System.out.println("자료 삭제");
+					else System.out.println("자료 삭제중 오류 발생");
+					
+					
+					
+				}
+			});
 			btnNewButton.setBounds(92, 218, 97, 23);
 		}
 		return btnNewButton;
@@ -151,17 +187,33 @@ public class ScoreDelect extends JInternalFrame {
 	private JButton getBtnNewButton_1() {
 		if (btnNewButton_1 == null) {
 			btnNewButton_1 = new JButton("\uC870\uD68C");
+			btnNewButton_1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					int serial = Integer.parseInt(tSer.getText());
+					ScoreVo vo = dao.search(serial);
+					if (vo == null) {
+						System.out.println("자료가없습니다");
+					} else {
+						tmId.setText(vo.getId());
+						tmName.setText(vo.getmName());
+						trDate.setText(sdf.format(vo.getRdate()));
+						tSubj.setText(vo.getSub());
+						tSco.setText(vo.getSco() + "");
+
+					}
+				}
+			});
 			btnNewButton_1.setBounds(251, 65, 97, 23);
 		}
 		return btnNewButton_1;
 	}
-	private JTextField getTGrade() {
-		if (tGrade == null) {
-			tGrade = new JTextField();
-			tGrade.setBounds(92, 157, 116, 21);
-			tGrade.setColumns(10);
+	private JTextField getTSubj() {
+		if (tSubj == null) {
+			tSubj = new JTextField();
+			tSubj.setBounds(92, 157, 116, 21);
+			tSubj.setColumns(10);
 		}
-		return tGrade;
+		return tSubj;
 	}
 	private JLabel getLblNewLabel_6() {
 		if (lblNewLabel_6 == null) {

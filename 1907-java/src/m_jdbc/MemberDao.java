@@ -41,6 +41,8 @@ public class MemberDao {
 		} finally {
 			return r;
 		}
+		ps.close();
+		conn.close();
 	}
 
 	public int delete(String mId) {

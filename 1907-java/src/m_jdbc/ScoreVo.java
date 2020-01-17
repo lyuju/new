@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ScoreVo {
-	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	int serial;
 	String id;
 	Date rdate;
@@ -64,9 +63,16 @@ public class ScoreVo {
 	}
 
 	public String toString() {
-		
-		String d = sdf.format(rdate);
-		String str = String.format("%10d\t%15s\t%15s\t%10s\t%30s\t%7.1f", serial,id,mName,d,sub,sco);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+		String d = null;
+		if(rdate==null) {
+			d="";
+		}else {
+			d = sdf.format(rdate);
+		}
+		if(sub==null) sub="";
+		String str = String.format("%10d\t%15s\t%20s\t%10s\t%30s\t%7d\n" , serial,id,mName,d,sub,sco);
 		  
 		  return str;
 	

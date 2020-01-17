@@ -8,10 +8,15 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
+import javax.swing.event.InternalFrameAdapter;
+import javax.swing.event.InternalFrameEvent;
 
 public class Scroemodify extends JInternalFrame {
+	Connection conn = DBConn.getConn();
 	ScoreDao dao = new ScoreDao();
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	private JLabel lblNewLabel;
@@ -51,6 +56,17 @@ public class Scroemodify extends JInternalFrame {
 	 */
 	public Scroemodify() {
 		super("성적수정", true, true, true, true);
+		addInternalFrameListener(new InternalFrameAdapter() {
+			@Override
+			public void internalFrameClosing(InternalFrameEvent arg0) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
 		setVisible(true);
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(null);
@@ -123,6 +139,7 @@ public class Scroemodify extends JInternalFrame {
 	private JTextField getTmId() {
 		if (tmId == null) {
 			tmId = new JTextField();
+			tmId.setEnabled(false);
 			tmId.setBounds(101, 57, 116, 21);
 			tmId.setColumns(10);
 		}
@@ -132,6 +149,7 @@ public class Scroemodify extends JInternalFrame {
 	private JTextField getTmName() {
 		if (tmName == null) {
 			tmName = new JTextField();
+			tmName.setEnabled(false);
 			tmName.setBounds(99, 82, 116, 21);
 			tmName.setColumns(10);
 		}
@@ -170,7 +188,7 @@ public class Scroemodify extends JInternalFrame {
 			btnNewButton = new JButton("\uC870\uD68C");
 			btnNewButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
+					//ScoreDao dao = new ScoreDao();
 					int serial = Integer.parseInt(tSEr.getText());
 					ScoreVo vo = dao.search(serial);
 					if (vo == null) {
@@ -185,6 +203,7 @@ public class Scroemodify extends JInternalFrame {
 					}
 
 				}
+				
 			});
 			btnNewButton.setBounds(244, 60, 97, 23);
 		}
@@ -194,6 +213,22 @@ public class Scroemodify extends JInternalFrame {
 	private JButton getBtnNewButton_1() {
 		if (btnNewButton_1 == null) {
 			btnNewButton_1 = new JButton("\uC218\uC815");
+			btnNewButton_1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					try {
+					ScoreVo vo = new ScoreVo();
+					vo.setSerial( Integer.parseInt(tSEr.getText()));
+					vo.setRdate(sdf.parse(trDate.getText()));
+					vo.setSub(tSubj.getText());
+					vo.setSco(Integer.parseInt(tSco.getText()));
+					int cnt = dao.update(vo);
+					if(cnt>0) System.out.println("정상 수정");
+					else System.out.println("수정중 오류 발생");
+					}catch(Exception ex) {
+						
+					}
+				}
+			});
 			btnNewButton_1.setBounds(101, 213, 97, 23);
 		}
 		return btnNewButton_1;
