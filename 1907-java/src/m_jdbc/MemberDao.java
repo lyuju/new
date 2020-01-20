@@ -41,8 +41,7 @@ public class MemberDao {
 		} finally {
 			return r;
 		}
-		ps.close();
-		conn.close();
+		
 	}
 
 	public int delete(String mId) {
@@ -73,12 +72,12 @@ public class MemberDao {
 
 	public MemberVo search(String mId) {
 		MemberVo vo = new MemberVo();
-		String sql = " select * from member where mId=? ";
+		String sql = " select * from member ";
 		try {
 			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setString(1, mId);
-
+            System.out.println("a");
 			ResultSet rs = ps.executeQuery();// 셀렉트 문장은 무조권 resultSet이 받음
+			System.out.println(rs);
 			if (rs.next()) {
 				vo.setmId(rs.getString("mId"));
 				vo.setmName(rs.getString("mName"));
@@ -121,7 +120,7 @@ public class MemberDao {
 
 	public List<MemberVo> select(String find) {
 		List<MemberVo> list = new ArrayList<MemberVo>();
-		String sql = " select * from member " + " where mId like ? or mName like ? ";// ?자리에 find가 들어감
+		String sql = " select * from member " + " where mId like ? ";// ?자리에 find가 들어감
 		try {
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, "%" + find + "%");
