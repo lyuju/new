@@ -54,6 +54,16 @@ let str='';
 
 frm.btn.onclick=function(){
 	str='<li>과정명 :'+ frm.course.value;
+	
+	subject.length=0;
+	for(i=0; i<frm.subject.length; i++){
+		if(frm.subject[i].selected){
+			subject.push(frm.subject[i].value);
+		}
+	}
+	
+	str +='<li>과목명:'+subject; 
+	
 	r.innerHTML=str;
 	
 	
