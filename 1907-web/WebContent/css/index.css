@@ -1,0 +1,77 @@
+@charset "UTF-8";
+
+#main{
+	width:1200px;
+	background-color:#eee;
+	margin:auto;
+}
+#header{
+	background-image:url(../images/ccc.jpg);
+	background-color:#fee;
+	height:150px;
+}	
+#nav{
+	background-color:#777;
+	color:#ff0;
+	overflow:hidden;
+	
+}
+#nav ul{
+	text-align:right;
+	margin:6px;
+	paddiong:0px;
+}
+#nav li{
+	display:inline-block;
+	list-style: none;
+	text-align:center;
+	
+}
+
+#nav li a{
+	text-decoration: none;
+	padding:5px;
+	color:#ff0;
+}
+#nav li a:hover{
+	background-color:#aaa;
+	color:#000;
+	cursor:pointer;
+}
+#nav li#html{
+	color:#000;
+	<a href='./html5/index_html.jsp'>
+	
+}
+#sub_menu{
+	width:200px;
+	background-color:#ffaaaa;
+}
+#center{
+	overflow:hidden;
+	
+}
+#center>div, #aside{
+	float:left;
+}
+#main_content{
+	width:800px;
+	background-color:#aaffaa;
+}	
+#aside{
+	width:200px;
+	
+	background-color:#aaaaff;
+}	
+#footer{
+	margin-top:1px;
+	background-colk:#ccc;
+	text-align:center;
+	padding-top:20px;
+	padding-bottom:20px;
+	box-sizing:border-box;
+}
+#footer font{
+	font-weight:bold;
+	text-shadow:0 0 6px #000;
+}
