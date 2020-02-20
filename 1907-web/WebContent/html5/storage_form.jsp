@@ -69,7 +69,7 @@ frm.btnSave.onclick = function(){
 		gender=frm.gender[1].value;
 	}
 	
-	for(i=0;i<frm.hobby.length ;i++){
+	for(i=0;i<frm.hobby.length;i++){
 		if(frm.hobby[i].checked) {
 			hobby.push(frm.hobby[i].value);
 		}

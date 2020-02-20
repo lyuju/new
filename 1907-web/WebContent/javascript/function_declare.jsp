@@ -37,5 +37,11 @@ function hoi(n){
 }
 hoi('456');	
 </script>
+<h4>화살표 함수</h4>
+<script>
+let func2=(a,b)=>{return a+b;};
+console.log(func2(10,20));
+
+</script>
 </body>
 </html>

@@ -13,7 +13,7 @@
 <a href='http://192.168.0.50:8888/1907-web/html5/anchor.jsp'>ㅇㅇ</a><br/>
 <h4>새 페이지 (탭)에 링크 연결</h4>
 <a href='http://www.jobtc.kr' target='_blank'>우리카페</a><br/>
-<a href='http://192.168.0.50:8888/1907-web/html5/anchor.jsp'target='_blank'>ㅇㅇ</a><br/>
+<a href='http://192.168.0.18:8888/1907-web/ajax/csv.jsp'target='_blank'>ㅇㅇ</a><br/>
 
 <h4>특정 브라우저(프레임)에 링크 연결</h4>
 <a href='http://www.jobtc.kr' target='sub_page'>우리카페</a><br/>

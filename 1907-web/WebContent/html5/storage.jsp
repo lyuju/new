@@ -16,7 +16,7 @@
 <script>
  //localStroage, sessionStorage에 값을 저장한 후
  //브라우저를 종료한 후 그 결과를 조회
- frm.mId.value=localStorage.getItem('mId');
+ //frm.mId.value=localStorage.getItem('mId');
  frm.btnSave.onclick = function(){
 	 localStorage.setItem('mId','hong');
 	 sessionStorage.setItem('mId','kim');

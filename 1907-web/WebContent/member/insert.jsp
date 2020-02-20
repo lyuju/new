@@ -9,7 +9,7 @@
 <body>
 <div id = 'm_insert' class='m_insert'>
 <h3>회원정보 입력</h3>
-<form name ='m_frm' action='abc.jsp' method='' target=''>
+<form name ='m_frm' id='m_frm' action='abc.jsp' method='' target=''>
  <label>아이디</label>
  <input type='text' name='mid' size='12'value='hong' maxlength='10'/>
  <br/>
@@ -41,8 +41,8 @@
  <input type ='range' min='0' max='20000' step='1000' value='1000'/>
 
  <label>증명사진</label>
- <input type='file' name='photo'/>
- 
+ <input type='file' name='photo' id='photo'/>
+ <img width='200px' height='300px' id='target'/>
  <br/>
  <label>간단한 자기 소개</label>
  <textarea rows='10' cols ='60' name='info'></textarea>
@@ -86,9 +86,43 @@
  </form>
 
 
-
+<img id='img' width='180px' height='200px' src='http://placehold.it/180x200'/>
 </div>
+<script>
 
+/* let btn=document.querySelector('#photo');
+btn.onchange=function(event){
+	 let ele=event.srcElement;
+	 console.log('srcElement',ele)
+	 console.log('name:',ele.value)
+	 let url=ele.files[0];
+	 let reader=new FileReader();
+	 reader.readAsDataURL(url);
+	  
+	 
+	 reader.onload=function(ev){
+		 
+	 let img= new Image();
+	 img.src = ev.target.result;//실제로 읽혀진 파일
+	 document.getElementById('target').src=img.src;
+	 }
+} */
+
+m_frm.photo.onchange = function(event){
+	let url = event.srcElement.files[0];
+	let reader = new FileReader();
+	reader.readAsDataURL(url);
+	reader.onload = function(ev){
+		let img = new Image();
+		let target = document.querySelector('#img');
+		img.src = ev.target.result;
+		target.src = img.src;
+	}
+	
+	
+}
+
+</script>
 
 
 
